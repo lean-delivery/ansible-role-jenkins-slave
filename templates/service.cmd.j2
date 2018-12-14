@@ -1,0 +1,1 @@
+java.exe -Xrs {{ slave_windows_java_opts }} -jar "{{ slave_windows_workdir }}/slave.jar" -jnlpUrl {{ master_url }}/computer/{{ slave_agent_name }}/slave-agent.jnlp -secret {{ jenkins_slave_secret }}

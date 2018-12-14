@@ -1,0 +1,59 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+driver:
+  name: delegated
+lint:
+  name: yamllint
+  options:
+    config-file: .yamllint
+platforms:
+  - name: test-jenkins-vm
+    image: CentOS7_64-bit
+    shape: small
+    region: EPAM-BY2
+    wait_timeout: 3600
+    groups:
+      - jenkins_master
+      - rhel_family
+  - name: test-jenkins-slave-centos7-vm
+    image: CentOS7_64-bit
+    shape: small
+    region: EPAM-BY2
+    wait_timeout: 3600
+    groups:
+      - jenkins_slaves
+      - rhel_family
+  - name: test-jenkins-slave-ubuntu18-vm
+    image: Ubuntu18.04_64-bit
+    shape: small
+    region: EPAM-BY2
+    wait_timeout: 3600
+    groups:
+      - jenkins_slaves
+      - debian_family
+provisioner:
+  name: ansible
+  log: True
+  playbooks:
+    create: ../resources/provisioning/create.yml
+    prepare: prepare.yml
+    destroy: ../resources/provisioning/destroy.yml
+  config_options:
+    ssh_connection:
+      control_path: "/var/ans/%%h"
+  lint:
+    name: ansible-lint
+  env:
+    ANSIBLE_LIBRARY: ${ANSIBLE_LIBRARY}
+scenario:
+  name: cloud-epc-delegated
+verifier:
+  name: testinfra
+  options:
+    verbose: true
+  directory: ../resources/tests/
+  lint:
+    name: flake8
