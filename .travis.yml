@@ -14,10 +14,12 @@ before_install:
 
 install:
   - pip install --upgrade ansible==2.5.* ansible-lint docker-py molecule==2.17 pyOpenSSL PyYAML pytest==3.7.4
+  - pip install git+https://github.com/ansible/ansible-lint.git
   - ansible --version
+  - ansible-lint --version
 
 script:
-  - ansible-lint -c .ansible-lint `find . -regex ".*\.\(yml\)"`
+  - ansible-lint . -c .ansible-lint
   - molecule test -s default
 
 notifications:
