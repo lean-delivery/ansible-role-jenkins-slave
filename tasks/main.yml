@@ -10,6 +10,10 @@
   package:
     name: "{{ requirements }}"
     state: present
+  register: status
+  retries: 10
+  delay: 2
+  until: status is success
   become: True
   when: (requirements | default([])) | length > 0
 
