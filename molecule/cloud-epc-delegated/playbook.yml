@@ -10,4 +10,4 @@
     slave_linux_user_group: slave
     slave_linux_jenkins_password: password
   roles:
-    - role: jenkins-slave
+    - role: ansible-role-jenkins-slave

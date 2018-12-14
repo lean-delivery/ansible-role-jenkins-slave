@@ -28,4 +28,4 @@
         slave_host_ip: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}"
         jenkins_slave_key: "{{ hostvars[groups['jenkins_master'][0]].jenkins_slave_key }}"
   roles:
-    - role: jenkins-slave
+    - role: ansible-role-jenkins-slave
