@@ -30,7 +30,7 @@ Java 8 - either a Java Runtime Environment (JRE) or a Java Development Kit (JDK)
   - `master_password`
   Jenkins master CLI user password. Default value is `admin`.
   - `master_host`
-  FQDN name or IP address of the jenkins master host. Default value is `{{ ansible_hostname }}`.
+  FQDN name or IP address of the jenkins master host. Default value is `{{ ansible_host }}`.
   - `master_port`
   Jenkins master http port. Default value is `8080`.
 
