@@ -7,13 +7,10 @@
 
 - name: "Install ansible selinux configure libraries"
   package:
-    name: "{{ selibs_item }}"
+    name:
+      - policycoreutils-python
+      - libsemanage-python
     state: present
-  with_items:
-    - policycoreutils-python
-    - libsemanage-python
-  loop_control:
-    loop_var: selibs_item
   become: True
   when: ansible_selinux.status == "enabled"
 
