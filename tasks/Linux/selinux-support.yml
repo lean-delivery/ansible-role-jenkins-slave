@@ -3,6 +3,10 @@
   package:
     name: libselinux-python
     state: present
+  register: status
+  retries: 10
+  delay: 2
+  until: status is success
   become: True
 
 - name: "Install ansible selinux configure libraries"
@@ -11,6 +15,10 @@
       - policycoreutils-python
       - libsemanage-python
     state: present
+  register: status
+  retries: 10
+  delay: 2
+  until: status is success
   become: True
   when: ansible_selinux.status == "enabled"
 
