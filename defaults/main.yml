@@ -1,0 +1,32 @@
+---
+# jenkins master
+master_username: admin
+master_password: admin
+master_host: "{{ ansible_host }}"
+master_port: 8080
+master_url: "http://{{ master_host }}:{{ master_port }}"
+
+# general slave
+slave_agent_name: agent
+slave_executors_num: 1
+
+# jenkins linux slave
+slave_linux_host: "{{ ansible_host }}"
+slave_linux_ssh_port: 22
+slave_linux_home: /opt/jenkins
+slave_linux_jenkins_cred_id: ci_slave
+slave_linux_jenkins_username: user
+slave_linux_jenkins_password: password
+slave_linux_jenkins_public_key: ""
+slave_linux_user_group: user
+slave_linux_labels:
+  - linux
+slave_linux_selinux_ports: "{{ master_port }},49187,\
+{{ slave_linux_ssh_port }}"
+
+# jenkins windows slave
+slave_windows_service: jenkins-slave
+slave_windows_workdir: C:/Jenkins_Slave
+slave_windows_java_opts: ""
+slave_windows_labels:
+  - windows

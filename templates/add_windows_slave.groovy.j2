@@ -1,0 +1,15 @@
+import jenkins.model.*
+import hudson.model.*
+import hudson.slaves.*
+import hudson.slaves.EnvironmentVariablesNodeProperty.Entry
+
+ComputerLauncher launcher = new JNLPLauncher()
+Slave slave = new DumbSlave( "{{ slave_agent_name }}",
+                             "{{ slave_windows_workdir }}",
+                             launcher )
+slave.numExecutors = {{ slave_executors_num }}
+slave.labelString = "{{ slave_windows_labels | join(" ") }}"
+slave.mode = Node.Mode.NORMAL
+slave.retentionStrategy = new RetentionStrategy.Always()
+Jenkins.instance.addNode(slave)
+print slave.getComputer().getJnlpMac()

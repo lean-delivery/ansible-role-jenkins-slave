@@ -1,0 +1,15 @@
+---
+- name: "Create slave home directory"
+  win_file:
+    path: '{{ slave_windows_workdir }}'
+    state: directory
+
+- name: "Download slave.jar from master"
+  win_get_url:
+    url: "{{ master_url }}/jnlpJars/slave.jar"
+    dest: '{{ slave_windows_workdir }}/slave.jar'
+    force: False
+
+- import_tasks: agent.yml
+
+- import_tasks: service.yml

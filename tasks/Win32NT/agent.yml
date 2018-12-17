@@ -1,0 +1,15 @@
+---
+- name: "Install slave jenkins agent"
+  delegate_to: localhost
+  jenkins_script:
+    url: "{{ master_url }}"
+    user: "{{ master_username }}"
+    password: "{{ master_password }}"
+    timeout: 40
+    validate_certs: False
+    script: "{{ lookup('template', 'add_windows_slave.groovy.j2') }}"
+  register: jenkins_script
+
+- name: "Set jenkins slave secret"
+  set_fact:
+    jenkins_slave_secret: "{{ jenkins_script.output }}"

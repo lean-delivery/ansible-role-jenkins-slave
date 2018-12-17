@@ -1,0 +1,8 @@
+---
+requirements:
+  - "openssh-server"
+  - "git"
+  - "net-tools"
+  - "wget"
+  - "lsof"
+  - "unzip"

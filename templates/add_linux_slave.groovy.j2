@@ -1,0 +1,27 @@
+import hudson.model.AbstractBuild
+import hudson.model.Node
+import hudson.plugins.sshslaves.SSHLauncher
+import hudson.plugins.sshslaves.verifiers.NonVerifyingKeyVerificationStrategy
+import hudson.plugins.sshslaves.verifiers.SshHostKeyVerificationStrategy
+import hudson.slaves.ComputerLauncher
+import hudson.slaves.DumbSlave
+import hudson.util.VariableResolver
+import jenkins.model.Jenkins
+
+Jenkins jenkins = Jenkins.getInstance()
+
+String nodeHostname = "{{ slave_linux_host }}"
+String nodeCredentialID = "{{ slave_linux_jenkins_cred_id }}"
+int nodePort = {{ slave_linux_ssh_port }}
+SshHostKeyVerificationStrategy strategy = new NonVerifyingKeyVerificationStrategy()
+
+ComputerLauncher nodeLauncher = new SSHLauncher( nodeHostname, nodePort,
+                 nodeCredentialID, null, null, null, null, 30, 20, 10, strategy )
+
+String nodeName = "{{ slave_agent_name }}"
+String nodeRemoteFS = "{{ slave_linux_home }}"
+
+Node node = new DumbSlave( nodeName, nodeRemoteFS, nodeLauncher )
+node.setNumExecutors({{ slave_executors_num }})
+node.setLabelString("{{ slave_linux_labels | join(' ') }}")
+jenkins.addNode(node)

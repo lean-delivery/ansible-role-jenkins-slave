@@ -1,0 +1,55 @@
+---
+- name: "Start and enable openssh server"
+  service:
+    name: sshd
+    state: started
+    enabled: True
+  become: True
+
+- name: "Create a group for jenkins user"
+  group:
+    name: "{{ slave_linux_jenkins_username }}"
+    state: present
+  become: True
+
+- name: "Create jenkins user with root privileges"
+  user:
+    name: "{{ slave_linux_jenkins_username }}"
+    group: "{{ slave_linux_jenkins_username }}"
+    password: "{{ slave_linux_jenkins_password | password_hash('sha512', \
+               65534 | random(seed=inventory_hostname) | string) }}"
+    update_password: always
+    state: present
+    append: True
+    createhome: True
+  become: True
+
+- name: "Set authorized key"
+  authorized_key:
+    user: "{{ slave_linux_jenkins_username }}"
+    state: present
+    key: "{{ slave_linux_jenkins_public_key }}"
+  become: True
+  when: slave_linux_jenkins_public_key | trim
+
+- name: "Create slave home directory"
+  file:
+    path: "{{ slave_linux_home }}"
+    state: directory
+    owner: "{{ slave_linux_jenkins_username }}"
+    group: "{{ slave_linux_user_group }}"
+    mode: 0775
+  become: True
+
+- name: "Install slave jenkins agent"
+  jenkins_script:
+    user: "{{ master_username }}"
+    password: "{{ master_password }}"
+    validate_certs: False
+    timeout: 120
+    url: "{{ master_url }}"
+    script: "{{ lookup('template', 'add_linux_slave.groovy.j2') }}"
+
+- name: "Add selinux support"
+  include_tasks: selinux-support.yml
+  when: ansible_os_family == "RedHat"

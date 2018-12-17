@@ -1,0 +1,32 @@
+---
+- name: "Install ansible selinux support library"
+  package:
+    name: libselinux-python
+    state: present
+  register: status
+  retries: 10
+  delay: 2
+  until: status is success
+  become: True
+
+- name: "Install ansible selinux configure libraries"
+  package:
+    name:
+      - policycoreutils-python
+      - libsemanage-python
+    state: present
+  register: status
+  retries: 10
+  delay: 2
+  until: status is success
+  become: True
+  when: ansible_selinux.status == "enabled"
+
+- name: "Enable connections to HTTP port"
+  seport:
+    ports: "{{ slave_linux_selinux_ports }}"
+    proto: tcp
+    setype: http_port_t
+    state: present
+  become: True
+  when: ansible_selinux.status == "enabled" and ansible_selinux.mode != "disabled"
