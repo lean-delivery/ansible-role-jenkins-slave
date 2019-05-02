@@ -39,6 +39,8 @@ Java 8 - either a Java Runtime Environment (JRE) or a Java Development Kit (JDK)
   Agent name of the slave node. Default value is `agent`.
   - `slave_executors_num`
   Number of executors of the slave node. Default value is `1`.
+  - `slave_environments`
+  Dictionary of env variables to be set on slave. Default value is `{}`
   - `master_url`
   Jenkins master host URL. Default value is `http://{{ master_host }}:{{ master_port }}`.
 
