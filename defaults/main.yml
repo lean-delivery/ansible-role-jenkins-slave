@@ -9,6 +9,7 @@ master_url: "http://{{ master_host }}:{{ master_port }}"
 # general slave
 slave_agent_name: agent
 slave_executors_num: 1
+slave_environments: {}
 
 # jenkins linux slave
 slave_linux_host: "{{ ansible_host }}"
@@ -32,3 +33,4 @@ slave_windows_labels:
   - windows
 slave_windows_service_user: LocalSystem
 slave_windows_service_password:
+

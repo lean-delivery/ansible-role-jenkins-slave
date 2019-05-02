@@ -39,6 +39,8 @@ Java 8 - either a Java Runtime Environment (JRE) or a Java Development Kit (JDK)
   Agent name of the slave node. Default value is `agent`.
   - `slave_executors_num`
   Number of executors of the slave node. Default value is `1`.
+  - `slave_environments`
+  Dictionary of env variables to be set on slave. Default value is `{}`
   - `master_url`
   Jenkins master host URL. Default value is `http://{{ master_host }}:{{ master_port }}`.
 
@@ -74,9 +76,9 @@ Java 8 - either a Java Runtime Environment (JRE) or a Java Development Kit (JDK)
   - `slave_windows_labels`
   List of labels for the slave node. Default value is `['windows']`.
   - `slave_windows_service_user`
-  The username to set the service to start as.
+  The username to set the service to start as. Default value is `LocalSystem`
   - `slave_windows_service_password`
-  The password of given username to set the service to start as.
+  The password of given username to set the service to start as. Default value is `""`
 
 ## Example Playbook
 
