@@ -24,4 +24,9 @@ String nodeRemoteFS = "{{ slave_linux_home }}"
 Node node = new DumbSlave( nodeName, nodeRemoteFS, nodeLauncher )
 node.setNumExecutors({{ slave_executors_num }})
 node.setLabelString("{{ slave_linux_labels | join(' ') }}")
+{% if slave_mode_exclusive %}
+node.setMode(Node.Mode.EXCLUSIVE)
+{% else %}
+node.setMode(Node.Mode.NORMAL)
+{% endif %}
 jenkins.addNode(node)
