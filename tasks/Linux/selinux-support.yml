@@ -7,7 +7,7 @@
   retries: 10
   delay: 2
   until: status is success
-  become: True
+  become: true
 
 - name: "Install ansible selinux configure libraries"
   package:
@@ -19,7 +19,7 @@
   retries: 10
   delay: 2
   until: status is success
-  become: True
+  become: true
   when: ansible_selinux.status == "enabled"
 
 - name: "Enable connections to HTTP port"
@@ -28,5 +28,5 @@
     proto: tcp
     setype: http_port_t
     state: present
-  become: True
+  become: true
   when: ansible_selinux.status == "enabled" and ansible_selinux.mode != "disabled"

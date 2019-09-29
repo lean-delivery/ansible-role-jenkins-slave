@@ -1,0 +1,34 @@
+---
+- name: Deal with the public key
+  hosts: jenkins_master
+  tasks:
+    - name: Slurp the public key
+      slurp:
+        src: /tmp/jenkins_key.pub
+      register: jenkins_key_pub
+
+    - name: Save the public key
+      set_fact:
+        jenkins_slave_key: >-
+          {{ jenkins_key_pub['content'] | b64decode }}
+
+- name: Install jenkins-slave on all slave nodes
+  hosts: jenkins_slaves
+  vars:
+    master_host: '{{ master_host_ip }}'
+    slave_linux_host: '{{ slave_host_ip }}'
+    slave_agent_name: '{{ inventory_hostname }}'
+    slave_linux_jenkins_cred_id: slave_node
+    slave_linux_jenkins_username: slave
+    slave_linux_user_group: slave
+    slave_linux_jenkins_password: password
+    slave_linux_jenkins_public_key: '{{ jenkins_slave_key }}'
+  pre_tasks:
+    - set_fact:
+        master_host_ip: >-
+          {{ hostvars[groups['jenkins_master'][0]].ansible_host }}
+        slave_host_ip: '{{ ansible_hostname }}'
+        jenkins_slave_key: >-
+          {{ hostvars[groups['jenkins_master'][0]].jenkins_slave_key }}
+  roles:
+    - role: ansible-role-jenkins-slave

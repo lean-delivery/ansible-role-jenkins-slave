@@ -2,14 +2,17 @@ jenkins-slave role
 ==================
 [![License](https://img.shields.io/badge/license-Apache-green.svg?style=flat)](https://raw.githubusercontent.com/lean-delivery/ansible-role-jenkins-slave/master/LICENSE)
 [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-jenkins-slave.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-jenkins-slave)
-
-## Summary
+[![Build Status](https://gitlab.com/lean-delivery/ansible-role-jenkins-slave/badges/master/pipeline.svg)](https://gitlab.com/lean-delivery/ansible-role-jenkins-slave/pipelines)
+[![Galaxy](https://img.shields.io/badge/galaxy-lean__delivery.jenkins-slave-blue.svg)](https://galaxy.ansible.com/lean_delivery/jenkins-slave)
+![Ansible](https://img.shields.io/ansible/role/d/35589.svg)
+![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2F35589%2F&query=$.min_ansible_version)
 
 This role sets up a new jenkins slave node and adds it to the jenkins master.
 
 ## Requirements
+------------
 
-- Version of the ansible for installation: 2.5
+- Version of the ansible for installation: >=2.7
 - **Supported OS**
   - EL
     - 7
@@ -19,10 +22,12 @@ This role sets up a new jenkins slave node and adds it to the jenkins master.
     - 10
 
 ## Dependencies
+------------
 
-Java 8 - either a Java Runtime Environment (JRE) or a Java Development Kit (JDK).
+**Java 8** [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-java.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-java)
 
 ## Role Variables
+--------------
 
 - required
   - `master_username`
@@ -73,6 +78,7 @@ Java 8 - either a Java Runtime Environment (JRE) or a Java Development Kit (JDK)
   Additional options to pass to java. Default value is `""`.
   - `slave_windows_labels`
   List of labels for the slave node. Default value is `['windows']`.
+
 
 ## Example Playbook
 
@@ -128,17 +134,12 @@ Nck6x4HPrsdfkjhwhf98239hfoijhpowifnYXRXAW1GYGC3lsq7FpWjCeN8wT5QzRsblTh6HZKqh96K3
     slave1.example.com slave_agent_name=slave1
     slave2.example.com slave_agent_name=slave2
 
-## Install jenkins-slave role
-
-```bash
-$ ansible-playbook playbook.yml -i inventory
-```
-
 ## License
-
-Apache
+-------
+Apache [![License](https://img.shields.io/badge/license-Apache-green.svg?style=flat)](https://raw.githubusercontent.com/lean-delivery/ansible-role-jenkins-slave/master/LICENSE)
 
 ## Author Information
+------------------
 
 authors:
   - Lean Delivery Team <team@lean-delivery.com>

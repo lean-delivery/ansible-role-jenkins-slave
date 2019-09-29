@@ -10,25 +10,14 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-jenkins-vm
+  - name: test-docker-centos7-jenkins-slave
     image: leandelivery/docker-systemd:centos7
-    privileged: True
-    exposed_ports:
-      - 8080/tcp
-    published_ports:
-      - 0.0.0.0:8888:8080/tcp
+    privileged: true
     groups:
-      - jenkins_master
       - rhel_family
-  - name: test-jenkins-slave-centos7-vm
-    image: leandelivery/docker-systemd:centos7
-    privileged: True
-    groups:
-      - jenkins_slaves
-      - rhel_family
-  - name: test-jenkins-slave-ubuntu18-vm
+  - name: test-docker-ubuntu1804-jenkins-slave
     image: leandelivery/docker-systemd:ubuntu-18.04
-    privileged: True
+    privileged: true
     security_opts:
       - seccomp=unconfined
     volumes:
@@ -39,21 +28,20 @@ platforms:
     capabilities:
       - SYS_ADMIN
     groups:
-      - jenkins_slaves
       - debian_family
 provisioner:
   name: ansible
-  log: True
-  playbooks:
-    prepare: prepare.yml
+  log: true
   lint:
     name: ansible-lint
+  config_options:
+    defaults:
+      callback_whitelist: profile_tasks,timer
+  playbooks:
+    verify: ../resources/tests/verify.yml
 scenario:
   name: default
 verifier:
-  name: testinfra
-  options:
-    verbose: true
-  directory: ../resources/tests/
+  name: ansible
   lint:
-    name: flake8
+    name: ansible-lint

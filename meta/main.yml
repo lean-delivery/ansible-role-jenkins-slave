@@ -1,12 +1,12 @@
 ---
 galaxy_info:
-  role_name: "jenkins-slave"
-  author: "Lean Delivery Team <team@lean-delivery.com>"
-  description: "Jenkins Slave Role"
-  company: "EPAM Systems"
-  issue_tracker_url: "https://github.com/lean-delivery/ansible-role-jenkins-slave/issues"
-  license: "Apache"
-  min_ansible_version: "2.5"
+  role_name: jenkins_slave
+  author: Lean Delivery Team <team@lean-delivery.com>
+  description: Ansible Role - Jenkins Slaves installation and configuration
+  company: EPAM Systems
+  issue_tracker_url: https://github.com/lean-delivery/ansible-role-jenkins-slave/issues
+  license: Apache
+  min_ansible_version: 2.7
   platforms:
     - name: "Ubuntu"
       versions:
@@ -23,5 +23,4 @@ galaxy_info:
     - "system"
     - "web"
     - "jenkins"
-
 dependencies: []

@@ -6,7 +6,7 @@
     user: "{{ master_username }}"
     password: "{{ master_password }}"
     timeout: 40
-    validate_certs: False
+    validate_certs: false
     script: "{{ lookup('template', 'add_windows_slave.groovy.j2') }}"
   register: jenkins_script
 
