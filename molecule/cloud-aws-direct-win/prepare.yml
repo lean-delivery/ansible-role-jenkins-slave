@@ -28,8 +28,6 @@
 - name: Prepare Jenkins
   hosts: jenkins_master
   vars:
-    jenkins2_plugins_version: true
-    jenkins2_smtp_enabled: false
     jenkins2_credentials:
       slave:
         type: 'password'
