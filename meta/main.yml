@@ -22,6 +22,10 @@ galaxy_info:
       versions:
         - "2017.12"
         - "Candidate"
+    - name: "Windows"
+      versions:
+        - "2016"
+        - "2019"
 
   galaxy_tags:
     - "development"

@@ -22,6 +22,9 @@ This role sets up a new jenkins slave node and adds it to the jenkins master.
     - bionic
   - Debian
     - stretch
+  - Windows
+    - 2016
+    - 2019
 
 ## Dependencies
 ------------
