@@ -15,6 +15,7 @@ platforms:
     privileged: true
     groups:
       - rhel_family
+      - jenkins_master
   - name: test-docker-ubuntu1804-jenkins-slave
     image: leandelivery/docker-systemd:ubuntu-18.04
     privileged: true
