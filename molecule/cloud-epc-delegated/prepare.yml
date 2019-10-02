@@ -14,6 +14,7 @@
 - name: Prepare Jenkins
   hosts: jenkins_master
   vars:
+    jenkins2_plugins_version: true
     jenkins2_credentials:
       slave:
         type: 'password'

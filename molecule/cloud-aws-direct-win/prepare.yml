@@ -1,7 +1,4 @@
 ---
-- name: Include common prepare
-  import_playbook: ../resources/provisioning/AWS/prepare.yml
-
 - name: Prepare host to S3 transport
   hosts: localhost
   gather_facts: true
@@ -31,12 +28,13 @@
 - name: Prepare Jenkins
   hosts: jenkins_master
   vars:
+    jenkins2_plugins_version: true
     jenkins2_credentials:
       slave:
         type: 'password'
         id: 'slave_node'
-        username: 'slave'
-        password: 'password'
+        username: '{{ hostvars[groups["jenkins_slaves"][0]].ansible_user }}'
+        password: '{{ hostvars[groups["jenkins_slaves"][0]].ansible_password }}'
         description: 'credentials for slave node'
   roles:
     - role: lean_delivery.jenkins
