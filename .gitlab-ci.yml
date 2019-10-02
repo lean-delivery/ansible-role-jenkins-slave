@@ -46,7 +46,7 @@ AWS jenkins-slave:
   tags:
     - aws
 
-.AWS jenkins-slave-win:
+AWS jenkins-slave-win:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test

@@ -16,10 +16,12 @@ This role sets up a new jenkins slave node and adds it to the jenkins master.
 - **Supported OS**
   - EL
     - 7
+  - Amazon Linux 2
   - Ubuntu
+    - xenial
     - bionic
-  - Windows
-    - 10
+  - Debian
+    - stretch
 
 ## Dependencies
 ------------
