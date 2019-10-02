@@ -30,7 +30,7 @@ Lint:
   tags:
     - aws
 
-.Docker jenkins-slave:
+Docker jenkins-slave:
   stage: deployment test
   script:
     - molecule test -s default
@@ -55,7 +55,7 @@ AWS jenkins-slave:
   tags:
     - aws
 
-.EPC jenkins-slave:
+EPC jenkins-slave:
   variables:
     EPC_REGION: EPAM-BY2
   stage: deployment test
