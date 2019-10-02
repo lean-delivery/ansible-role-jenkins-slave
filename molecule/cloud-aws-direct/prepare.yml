@@ -2,10 +2,14 @@
 - name: Include common prepare
   import_playbook: ../resources/provisioning/AWS/prepare.yml
 
-- name: Install Oracle-Java
+- name: Install OpenJDK8
   hosts: all
   roles:
     - role: lean_delivery.java
+      java_major_version: 8
+      java_package: jdk
+      transport: repositories
+      java_tarball_install: false
 
 - name: Prepare Jenkins
   hosts: jenkins_master
