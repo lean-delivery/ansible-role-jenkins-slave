@@ -29,12 +29,13 @@
   hosts: jenkins_master
   vars:
     jenkins2_plugins_version: true
+    jenkins2_smtp_enabled: false
     jenkins2_credentials:
       slave:
         type: 'password'
         id: 'slave_node'
-        username: '{{ hostvars[groups["jenkins_slaves"][0]].ansible_user }}'
-        password: '{{ hostvars[groups["jenkins_slaves"][0]].ansible_password }}'
+        username: 'slave'
+        password: 'password'
         description: 'credentials for slave node'
   roles:
     - role: lean_delivery.jenkins
