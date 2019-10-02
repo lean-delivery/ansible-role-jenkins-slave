@@ -10,7 +10,7 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-docker-centos7-jenkins-slave
+  - name: test-docker-centos7-jenkins-master
     image: leandelivery/docker-systemd:centos7
     privileged: true
     groups:
@@ -30,6 +30,7 @@ platforms:
       - SYS_ADMIN
     groups:
       - debian_family
+      - jenkins_slaves
 provisioner:
   name: ansible
   log: true
