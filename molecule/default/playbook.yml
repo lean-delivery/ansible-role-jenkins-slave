@@ -1,4 +1,10 @@
 ---
+- name: Get Jenkins master
+  hosts: all
+  tasks:
+    - name: setup
+      setup:
+
 - name: Converge
   hosts: jenkins_slaves
   vars:
