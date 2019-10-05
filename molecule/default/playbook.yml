@@ -5,6 +5,18 @@
     - name: setup
       setup:
 
+    - name: debug inventory_hostname
+      debug:
+        var: inventory_hostname
+
+    - name: debug ansible_hostname
+      debug:
+        var: ansible_hostname
+
+    - name: debug ansible_host
+      debug:
+        var: ansible_host
+
 - name: Converge
   hosts: jenkins_slaves
   vars:
