@@ -8,8 +8,8 @@
 - name: Converge
   hosts: jenkins_slaves
   vars:
-    master_host: '{{ hostvars[groups["jenkins_master"][0]].ansible_host }}'
-    slave_linux_host: '{{ ansible_hostname }}'
+    master_host: '{{ hostvars[groups["jenkins_master"][0]].inventory_hostname }}'
+    slave_linux_host: '{{ inventory_hostname }}'
     slave_agent_name: '{{ inventory_hostname }}'
     slave_linux_jenkins_cred_id: slave_node
     slave_linux_jenkins_username: slave

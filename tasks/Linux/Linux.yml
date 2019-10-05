@@ -1,55 +1,58 @@
 ---
-- name: "Start and enable openssh server"
+- name: Start and enable openssh server
   service:
     name: sshd
     state: started
     enabled: true
   become: true
 
-- name: "Create a group for jenkins user"
+- name: Create a group for jenkins user
   group:
-    name: "{{ slave_linux_jenkins_username }}"
+    name: '{{ slave_linux_jenkins_username }}'
     state: present
   become: true
 
-- name: "Create jenkins user with root privileges"
+- name: Create jenkins user with root privileges
   user:
-    name: "{{ slave_linux_jenkins_username }}"
-    group: "{{ slave_linux_jenkins_username }}"
-    password: "{{ slave_linux_jenkins_password | password_hash('sha512', \
-               65534 | random(seed=inventory_hostname) | string) }}"
+    name: '{{ slave_linux_jenkins_username }}'
+    group: '{{ slave_linux_jenkins_username }}'
+    password: >-
+      {{ slave_linux_jenkins_password
+        | password_hash('sha512', 65534 | random(seed=inventory_hostname)
+        | string) }}
     update_password: always
     state: present
     append: true
     createhome: true
   become: true
 
-- name: "Set authorized key"
+- name: Set authorized key
   authorized_key:
-    user: "{{ slave_linux_jenkins_username }}"
+    user: '{{ slave_linux_jenkins_username }}'
     state: present
-    key: "{{ slave_linux_jenkins_public_key }}"
+    key: '{{ slave_linux_jenkins_public_key }}'
   become: true
   when: slave_linux_jenkins_public_key | trim
 
-- name: "Create slave home directory"
+- name: Create slave home directory
   file:
-    path: "{{ slave_linux_home }}"
+    path: '{{ slave_linux_home }}'
     state: directory
-    owner: "{{ slave_linux_jenkins_username }}"
-    group: "{{ slave_linux_user_group }}"
+    owner: '{{ slave_linux_jenkins_username }}'
+    group: '{{ slave_linux_user_group }}'
     mode: 0775
   become: true
 
-- name: "Install slave jenkins agent"
+- name: Install slave jenkins agent
   jenkins_script:
-    user: "{{ master_username }}"
-    password: "{{ master_password }}"
+    user: '{{ master_username }}'
+    password: '{{ master_password }}'
     validate_certs: false
     timeout: 120
-    url: "{{ master_url }}"
-    script: "{{ lookup('template', 'add_linux_slave.groovy.j2') }}"
+    url: '{{ master_url }}'
+    script: >-
+      {{ lookup('template', 'add_linux_slave.groovy.j2') }}
 
-- name: "Add selinux support"
+- name: Add selinux support
   include_tasks: selinux-support.yml
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == 'RedHat'
