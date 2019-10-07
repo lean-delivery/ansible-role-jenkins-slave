@@ -1,9 +1,31 @@
 ---
 # This is an example playbook to execute Ansible tests.
 
-- name: Verify
-  hosts: all
+- name: Verify Slave
+  hosts: jenkins_slaves
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+
+  - name: Get jenkins slave ifno
+    jenkins_script:
+      url: '{{ master_url }}'
+      script: |
+        import hudson.model.*
+        import hudson.node_monitors.*
+        import hudson.slaves.*
+        jenkins = Hudson.instance
+        def slaveConfiguration = false
+        for (slave in jenkins.slaves) {
+          def computer = slave.computer
+          if ( !slave.getComputer().isOffline() ) {
+              slaveConfiguration = true
+          }
+        }
+        println(slaveConfiguration)
+      user: '{{ master_username }}'
+      password: '{{ master_password }}'
+      validate_certs: false
+      timeout: 120
+    register: slave_ifno
+
+  - debug:
+      var: slave_ifno
