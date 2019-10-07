@@ -21,8 +21,8 @@
           }
         }
         println(slaveConfiguration)
-      user: '{{ master_username }}'
-      password: '{{ master_password }}'
+      user: admin
+      password: admin
       validate_certs: false
       timeout: 120
     register: slave_ifno
