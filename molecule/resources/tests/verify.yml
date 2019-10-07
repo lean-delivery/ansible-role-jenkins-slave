@@ -3,11 +3,17 @@
 
 - name: Verify Slave
   hosts: jenkins_slaves
+  vars:
+    master_username: admin
+    master_password: admin
+    master_host: '{{ master_host_ip }}'
+    master_port: 8080
+    master_url: "http://{{ master_host }}:{{ master_port }}"
+  pre_tasks:
+    - set_fact:
+        master_host_ip: >-
+          {{ hostvars[groups['jenkins_master'][0]].ansible_host }}
   tasks:
-
-  - name: Load default vars
-    include_vars:
-      file: defaults/main.yml
 
   - name: Get jenkins slave ifno
     jenkins_script:
