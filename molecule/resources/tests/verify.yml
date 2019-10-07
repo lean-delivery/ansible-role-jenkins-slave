@@ -39,3 +39,7 @@
 
   - debug:
       var: slave_ifno
+
+  - name: Assert that java is working
+    assert:
+      that: "'true' in slave_ifno.output"
