@@ -5,6 +5,10 @@
   hosts: jenkins_slaves
   tasks:
 
+  - name: Load default vars
+    include_vars:
+      file: defaults/main.yml
+
   - name: Get jenkins slave ifno
     jenkins_script:
       url: '{{ master_url }}'
@@ -21,8 +25,8 @@
           }
         }
         println(slaveConfiguration)
-      user: admin
-      password: admin
+      user: '{{ master_username }}'
+      password: '{{ master_password }}'
       validate_certs: false
       timeout: 120
     register: slave_ifno
