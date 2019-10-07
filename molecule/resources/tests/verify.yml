@@ -15,7 +15,7 @@
           {{ hostvars[groups['jenkins_master'][0]].ansible_host }}
   tasks:
 
-  - name: Get jenkins slave ifno
+  - name: Get jenkins slave info
     jenkins_script:
       url: '{{ master_url }}'
       script: |
@@ -36,10 +36,11 @@
       validate_certs: false
       timeout: 120
     register: slave_ifno
+    delegate_to: localhost
 
   - debug:
       var: slave_ifno
 
-  - name: Assert that java is working
+  - name: Assert that jenkins slave is working
     assert:
       that: "'true' in slave_ifno.output"
