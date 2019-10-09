@@ -16,10 +16,31 @@
   vars:
     jenkins2_credentials:
       slave:
-        type: 'password'
+        type: 'key'
+        keySource: 0
+        key: '{{ jenkins_master_key }}'
         id: 'slave_node'
         username: 'slave'
-        password: 'password'
+        passphrase: ''
         description: 'credentials for slave node'
+  pre_tasks:
+    - name: Make sure ssh client is installed
+      package:
+        name: openssh-clients
+        state: present
+
+    - name: Generate a pair of keys
+      command: ssh-keygen -q -t rsa -f /tmp/jenkins_key -C "" -N ""
+      changed_when: false
+
+    - name: Slurp the private key
+      slurp:
+        src: /tmp/jenkins_key
+      register: jenkins_key
+
+    - name: Save the private key
+      set_fact:
+        jenkins_master_key: >-
+          {{ jenkins_key['content'] | b64decode }}
   roles:
     - role: lean_delivery.jenkins

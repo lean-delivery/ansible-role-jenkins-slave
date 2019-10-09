@@ -1,5 +1,10 @@
 ---
 # This is an example playbook to execute Ansible tests.
+- name: Get Jenkins master
+  hosts: all
+  tasks:
+    - name: setup
+      setup:
 
 - name: Verify Slave
   hosts: jenkins_slaves
@@ -12,7 +17,7 @@
   pre_tasks:
     - set_fact:
         master_host_ip: >-
-          {{ hostvars[groups['jenkins_master'][0]].ansible_host }}
+          {{ hostvars[groups["jenkins_master"][0]].ansible_default_ipv4.address }}
   tasks:
 
   - name: Get jenkins slave info
@@ -35,12 +40,12 @@
       password: '{{ master_password }}'
       validate_certs: false
       timeout: 120
-    register: slave_ifno
+    register: slave_info
     delegate_to: localhost
 
   - debug:
-      var: slave_ifno
+      var: slave_info
 
   - name: Assert that jenkins slave is working
     assert:
-      that: "'true' in slave_ifno.output"
+      that: "'true' in slave_info.output"
