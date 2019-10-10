@@ -5,6 +5,19 @@
     - name: setup
       setup:
 
+- name: Deal with the public key
+  hosts: jenkins_master
+  tasks:
+    - name: Slurp the public key
+      slurp:
+        src: /tmp/jenkins_key.pub
+      register: jenkins_key_pub
+
+    - name: Save the public key
+      set_fact:
+        jenkins_slave_key: >-
+          {{ jenkins_key_pub['content'] | b64decode }}
+
 - name: Converge
   hosts: jenkins_slaves
   vars:
