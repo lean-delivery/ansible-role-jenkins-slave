@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: jenkins_slaves
+  vars:
+    master_host: '{{ hostvars[groups["jenkins_master"][0]].ansible_host }}'
+    slave_agent_name: '{{ inventory_hostname }}'
+  roles:
+    - role: ansible-role-jenkins-slave

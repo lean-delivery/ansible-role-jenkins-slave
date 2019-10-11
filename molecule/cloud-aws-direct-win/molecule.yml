@@ -1,0 +1,89 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+driver:
+  name: ec2
+lint:
+  name: yamllint
+  options:
+    config-file: .yamllint
+platforms:
+
+  - name: test-aws-centos7-jenkins-masterw
+    image: ami-9887c6e7
+    platform: centos7
+    instance_type: m5.large
+    region: us-east-1
+    vpc_subnet_id: subnet-0f2b9cd66faea38af
+    assign_public_ip: false
+    spot_price: 0.04
+    security_group_name:
+      - default
+    wait_timeout: 1800
+    ssh_user: centos
+    groups:
+      - rhel_family
+      - jenkins_master
+
+  - name: test-aws-Windows2016-jenkins-slave
+    image_id: ami-00a20f508263efd30
+    platform: windows2016core
+    region: us-east-1
+    instance_type: m5.large
+    vpc_subnet_id: subnet-0f2b9cd66faea38af
+    assign_public_ip: false
+    spot_price: 0.14
+    security_group_name:
+      - default
+    wait_timeout: 1800
+    groups:
+      - windows
+      - jenkins_slaves
+
+  - name: test-aws-Windows2019-jenkins-slave
+    image_id: ami-0477b9335a5a75438
+    platform: windows2019core
+    region: us-east-1
+    instance_type: m5.large
+    vpc_subnet_id: subnet-0f2b9cd66faea38af
+    assign_public_ip: false
+    spot_price: 0.14
+    security_group_name:
+      - default
+    wait_timeout: 1800
+    groups:
+      - windows
+      - jenkins_slaves
+provisioner:
+  name: ansible
+  log: true
+  config_options:
+    defaults:
+      callback_whitelist: profile_tasks,timer
+  inventory:
+    group_vars:
+      rhel_family:
+        transport: repositories
+      windows:
+        ansible_connection: winrm
+        ansible_password: "{{ lookup('env', 'WINRM_ADMIN_PWD') | default('M0leCule123!', true) }}"
+        ansible_winrm_transport: credssp
+        ansible_winrm_server_cert_validation: ignore
+        java_distribution: oracle_java
+        transport: local
+        transport_local: /tmp/jdk-8u202-windows-x64.exe
+  playbooks:
+    create: ../resources/provisioning/AWS/create.yml
+    prepare: prepare.yml
+    destroy: ../resources/provisioning/AWS/destroy.yml
+    verify: ../resources/tests/verify.yml
+  lint:
+    name: ansible-lint
+scenario:
+  name: cloud-aws-direct-win
+verifier:
+  name: ansible
+  lint:
+    name: ansible-lint

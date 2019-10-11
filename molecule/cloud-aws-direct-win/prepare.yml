@@ -1,0 +1,39 @@
+---
+- name: Prepare host to S3 transport
+  hosts: localhost
+  gather_facts: true
+  vars:
+    transport_s3_bucket: java-molecule-s3-test
+    transport_s3_path: java/jdk-8u202-windows-x64.exe
+    java_download_path: /tmp
+  tasks:
+    - name: Download artifact from s3
+      aws_s3:
+        bucket: '{{ transport_s3_bucket }}'
+        object: '{{ transport_s3_path }}'
+        dest: '{{ java_download_path }}/{{ transport_s3_path | basename }}'
+        mode: get
+        overwrite: different
+      retries: 5
+      delay: 2
+
+- name: Install Java 8
+  hosts: all
+  roles:
+    - role: lean_delivery.java
+      java_major_version: 8
+      java_package: jdk
+      java_tarball_install: false
+
+- name: Prepare Jenkins
+  hosts: jenkins_master
+  vars:
+    jenkins2_credentials:
+      slave:
+        type: 'password'
+        id: 'slave_node'
+        username: 'slave'
+        password: 'password'
+        description: 'credentials for slave node'
+  roles:
+    - role: lean_delivery.jenkins

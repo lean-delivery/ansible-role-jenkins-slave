@@ -10,37 +10,40 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-jenkins-vm
+  - name: test-epc-centos7-jenkins-master
     image: CentOS7_64-bit
     shape: small
     region: EPAM-BY2
     wait_timeout: 3600
     groups:
+      - rhel_family
       - jenkins_master
-      - rhel_family
-  - name: test-jenkins-slave-centos7-vm
+
+  - name: test-epc-centos7-jenkins-slave
     image: CentOS7_64-bit
     shape: small
     region: EPAM-BY2
     wait_timeout: 3600
     groups:
-      - jenkins_slaves
       - rhel_family
-  - name: test-jenkins-slave-ubuntu18-vm
+      - jenkins_slaves
+
+  - name: test-epc-ubuntu1804-jenkins-slave
     image: Ubuntu18.04_64-bit
     shape: small
     region: EPAM-BY2
     wait_timeout: 3600
     groups:
-      - jenkins_slaves
       - debian_family
+      - jenkins_slaves
 provisioner:
   name: ansible
-  log: True
+  log: true
   playbooks:
-    create: ../resources/provisioning/create.yml
+    create: ../resources/provisioning/EPC/create.yml
     prepare: prepare.yml
-    destroy: ../resources/provisioning/destroy.yml
+    destroy: ../resources/provisioning/EPC/destroy.yml
+    verify: ../resources/tests/verify.yml
   config_options:
     ssh_connection:
       control_path: "/var/ans/%%h"
@@ -51,9 +54,9 @@ provisioner:
 scenario:
   name: cloud-epc-delegated
 verifier:
-  name: testinfra
+  name: ansible
   options:
     verbose: true
   directory: ../resources/tests/
   lint:
-    name: flake8
+    name: ansible-lint

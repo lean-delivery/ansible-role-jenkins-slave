@@ -1,0 +1,51 @@
+---
+# This is an example playbook to execute Ansible tests.
+- name: Get Jenkins master
+  hosts: all
+  tasks:
+    - name: setup
+      setup:
+
+- name: Verify Slave
+  hosts: jenkins_slaves
+  vars:
+    master_username: admin
+    master_password: admin
+    master_host: '{{ master_host_ip }}'
+    master_port: 8080
+    master_url: "http://{{ master_host }}:{{ master_port }}"
+  pre_tasks:
+    - set_fact:
+        master_host_ip: >-
+          {{ hostvars[groups["jenkins_master"][0]].ansible_default_ipv4.address }}
+  tasks:
+
+  - name: Get jenkins slave info
+    jenkins_script:
+      url: '{{ master_url }}'
+      script: |
+        import hudson.model.*
+        import hudson.node_monitors.*
+        import hudson.slaves.*
+        jenkins = Hudson.instance
+        def slaveConfiguration = false
+        for (slave in jenkins.slaves) {
+          def computer = slave.computer
+          if ( !slave.getComputer().isOffline() ) {
+              slaveConfiguration = true
+          }
+        }
+        println(slaveConfiguration)
+      user: '{{ master_username }}'
+      password: '{{ master_password }}'
+      validate_certs: false
+      timeout: 120
+    register: slave_info
+    delegate_to: localhost
+
+  - debug:
+      var: slave_info
+
+  - name: Assert that jenkins slave is working
+    assert:
+      that: "'true' in slave_info.output"
