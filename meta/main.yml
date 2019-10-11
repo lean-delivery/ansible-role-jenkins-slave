@@ -32,4 +32,6 @@ galaxy_info:
     - "system"
     - "web"
     - "jenkins"
+    - "windows"
+    - "slave"
 dependencies: []
