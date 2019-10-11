@@ -13,6 +13,10 @@ platforms:
   - name: test-docker-centos7-jenkins-master
     image: leandelivery/docker-systemd:centos7
     privileged: true
+    exposed_ports:
+      - 8080/tcp
+    published_ports:
+      - 0.0.0.0:8888:8080/tcp
     groups:
       - rhel_family
       - jenkins_master
