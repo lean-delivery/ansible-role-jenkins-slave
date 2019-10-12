@@ -12,9 +12,9 @@ lint:
 platforms:
   - name: test-epc-centos7-jenkins-master
     image: CentOS7_64-bit
-    shape: small
+    shape: large
     region: EPAM-BY2
-    wait_timeout: 3600
+    wait_timeout: 7200
     groups:
       - rhel_family
       - jenkins_master
@@ -23,7 +23,7 @@ platforms:
     image: CentOS7_64-bit
     shape: small
     region: EPAM-BY2
-    wait_timeout: 3600
+    wait_timeout: 7200
     groups:
       - rhel_family
       - jenkins_slaves
@@ -32,7 +32,7 @@ platforms:
     image: Ubuntu18.04_64-bit
     shape: small
     region: EPAM-BY2
-    wait_timeout: 3600
+    wait_timeout: 7200
     groups:
       - debian_family
       - jenkins_slaves
@@ -47,6 +47,8 @@ provisioner:
   config_options:
     ssh_connection:
       control_path: "/var/ans/%%h"
+    defaults:
+      callback_whitelist: profile_tasks,timer
   lint:
     name: ansible-lint
   env:
