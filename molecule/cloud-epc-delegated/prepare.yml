@@ -1,40 +1,17 @@
 ---
-- name: "Prepare Ubuntu / Debian"
-  hosts: debian_family
-  gather_facts: False
-  tasks:
-    - name: "Install python for Ansible"
-      raw: test -e /usr/bin/python || (apt install -y python-minimal python-zipstream)
-      become: True
-      changed_when: False
+- name: Include common prepare
+  import_playbook: ../resources/provisioning/EPC/prepare.yml
 
-- name: "Prepare RHEL"
-  hosts: rhel_family
-  gather_facts: False
-  tasks:
-    - name: "Install python for Ansible"
-      raw: test -e /usr/bin/python || (yum install -y python2 python-simplejson)
-      become: True
-      changed_when: False
-
-- name: "Install Oracle-Java"
+- name: Install OpenJDK8
   hosts: all
   roles:
     - role: lean_delivery.java
+      java_major_version: 8
+      java_package: jdk
+      transport: repositories
+      java_tarball_install: false
 
-# Workaround for centos in docker that fails with
-# yum error: package does not match intended download.
-- name: "Workaround centos yum issue"
-  hosts: rhel_family
-  tasks:
-    - name: "Clean yum cache"
-      command: yum --enablerepo=updates clean metadata
-      become: True
-      args:
-        warn: False
-      changed_when: False
-
-- name: "Prepare Jenkins"
+- name: Prepare Jenkins
   hosts: jenkins_master
   vars:
     jenkins2_credentials:

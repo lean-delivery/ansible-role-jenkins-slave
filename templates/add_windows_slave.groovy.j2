@@ -15,7 +15,11 @@ Slave slave = new DumbSlave("{{ slave_agent_name }}",
                             launcher)
 slave.numExecutors = {{ slave_executors_num }}
 slave.labelString = "{{ slave_windows_labels | join(" ") }}"
+{% if slave_mode_exclusive %}
+slave.mode = Node.Mode.EXCLUSIVE
+{% else %}
 slave.mode = Node.Mode.NORMAL
+{% endif %}
 slave.retentionStrategy = new RetentionStrategy.Always()
 slave.nodeProperties = envs
 Jenkins.instance.addNode(slave)

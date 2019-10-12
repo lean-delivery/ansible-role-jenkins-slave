@@ -10,6 +10,7 @@ master_url: "http://{{ master_host }}:{{ master_port }}"
 slave_agent_name: agent
 slave_executors_num: 1
 slave_environments: {}
+slave_mode_exclusive: false
 
 # jenkins linux slave
 slave_linux_host: "{{ ansible_host }}"

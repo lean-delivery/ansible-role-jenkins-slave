@@ -1,42 +1,59 @@
 ---
 # Run all tests
+default:
+  image:
+    name: leandelivery/docker-ansible-ci:ansible-2.8
+
 stages:
   - lint
   - deployment test
 
 before_script:
+  - rm -rf molecule/resources/provisioning
   - ansible --version
+  - ansible-lint --version
   - molecule --version
+  - git clone https://github.com/lean-delivery/ansible-molecule-drivers.git molecule/resources/provisioning
 
 variables:
   GET_SOURCES_ATTEMPTS: "5"
 
-Ansible lint:
+Lint:
   stage: lint
   before_script:
     - git clone https://github.com/lean-delivery/ansible-lint-rules.git ~/ansible-lint-rules
   script:
-    - ansible-lint -c .ansible-lint .
+    - yamllint . -c .yamllint
+    - ansible-lint . -c .ansible-lint
   after_script:
     - rm -rf ~/ansible-lint-rules
   tags:
-    - delegated
+    - aws
 
 Docker jenkins-slave:
   stage: deployment test
   script:
-    - molecule test
+    - molecule test -s default
   tags:
-    - docker
+    - aws
 
 AWS jenkins-slave:
   variables:
-    EPC_REGION: AWS-EUCENTRAL
+    AWS_REGION: us-east-1
   stage: deployment test
   script:
-    - molecule test -s cloud-aws-delegated
+    - molecule test -s cloud-aws-direct
   tags:
-    - delegated
+    - aws
+
+AWS jenkins-slave-win:
+  variables:
+    AWS_REGION: us-east-1
+  stage: deployment test
+  script:
+    - molecule test -s cloud-aws-direct-win
+  tags:
+    - aws
 
 EPC jenkins-slave:
   variables:
