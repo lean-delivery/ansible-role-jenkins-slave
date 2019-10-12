@@ -49,6 +49,8 @@ This role sets up a new jenkins slave node and adds it to the jenkins master.
   Agent name of the slave node. Default value is `agent`.
   - `slave_executors_num`
   Number of executors of the slave node. Default value is `1`.
+  - `slave_mode_exclusive`
+  Set usage of this node. If true, node will only build jobs with matching label expressions. Default value is `false`.
   - `master_url`
   Jenkins master host URL. Default value is `http://{{ master_host }}:{{ master_port }}`.
 
