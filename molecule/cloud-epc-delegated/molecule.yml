@@ -10,7 +10,7 @@ lint:
   options:
     config-file: .yamllint
 platforms:
-  - name: test-epc-centos7-jenkins-master
+  - name: test-epc-centos7-jenkins-mstr
     image: CentOS7_64-bit
     shape: large
     region: EPAM-BY2

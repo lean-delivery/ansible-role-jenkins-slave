@@ -14,7 +14,3 @@
 - name: Set jenkins slave secret
   set_fact:
     jenkins_slave_secret: '{{ jenkins_script.output }}'
-
-- name: debug jenkins_slave_secret
-  debug:
-    var: jenkins_slave_secret
