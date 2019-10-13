@@ -85,6 +85,10 @@ This role sets up a new jenkins slave node and adds it to the jenkins master.
   Additional options to pass to java. Default value is `""`.
   - `slave_windows_labels`
   List of labels for the slave node. Default value is `['windows']`.
+  - `slave_windows_service_user`
+  The username to set the service to start as.
+  - `slave_windows_service_password`
+  The password of given username to set the service to start as.
 
 
 ## Example Playbook

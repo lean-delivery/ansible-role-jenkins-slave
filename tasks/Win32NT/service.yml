@@ -19,3 +19,5 @@
   win_service:
     name: '{{ slave_windows_service }}'
     state: started
+    username: '{{ slave_windows_service_user }}'
+    password: '{{ slave_windows_service_password }}'
