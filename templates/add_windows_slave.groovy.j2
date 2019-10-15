@@ -21,6 +21,6 @@ slave.mode = Node.Mode.EXCLUSIVE
 slave.mode = Node.Mode.NORMAL
 {% endif %}
 slave.retentionStrategy = new RetentionStrategy.Always()
-node.getNodeProperties().add(envPro)
+slave.getNodeProperties().add(envPro)
 Jenkins.instance.addNode(slave)
 print slave.getComputer().getJnlpMac()
