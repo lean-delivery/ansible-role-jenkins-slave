@@ -3,11 +3,11 @@ import hudson.model.*
 import hudson.slaves.*
 import hudson.slaves.EnvironmentVariablesNodeProperty.Entry
 
-envs = new LinkedList()
+List<Entry> env = new ArrayList<Entry>();
 {% for item in (slave_environments | dict2items) %}
-env = new EnvironmentVariablesNodeProperty(new EnvironmentVariablesNodeProperty.Entry("{{ item.key }}", "{{ item.value }}"))
-envs.add(env)
+env.add(new Entry("{{ item.key }}", "{{ item.value }}"))
 {% endfor %}
+EnvironmentVariablesNodeProperty envPro = new EnvironmentVariablesNodeProperty(env);
 
 ComputerLauncher launcher = new JNLPLauncher()
 Slave slave = new DumbSlave("{{ slave_agent_name }}",
@@ -21,6 +21,6 @@ slave.mode = Node.Mode.EXCLUSIVE
 slave.mode = Node.Mode.NORMAL
 {% endif %}
 slave.retentionStrategy = new RetentionStrategy.Always()
-slave.nodeProperties = envs
+node.getNodeProperties().add(envPro)
 Jenkins.instance.addNode(slave)
 print slave.getComputer().getJnlpMac()
