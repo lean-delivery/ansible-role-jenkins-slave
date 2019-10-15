@@ -7,6 +7,15 @@ import hudson.slaves.ComputerLauncher
 import hudson.slaves.DumbSlave
 import hudson.util.VariableResolver
 import jenkins.model.Jenkins
+import hudson.slaves.*
+import hudson.slaves.EnvironmentVariablesNodeProperty.Entry
+
+
+List<Entry> env = new ArrayList<Entry>();
+{% for item in (slave_environments | dict2items) %}
+env.add(new Entry("{{ item.key }}", "{{ item.value }}"))
+{% endfor %}
+EnvironmentVariablesNodeProperty envPro = new EnvironmentVariablesNodeProperty(env);
 
 Jenkins jenkins = Jenkins.getInstance()
 
@@ -21,9 +30,10 @@ ComputerLauncher nodeLauncher = new SSHLauncher( nodeHostname, nodePort,
 String nodeName = "{{ slave_agent_name }}"
 String nodeRemoteFS = "{{ slave_linux_home }}"
 
-Node node = new DumbSlave( nodeName, nodeRemoteFS, nodeLauncher )
+Node node = new DumbSlave(nodeName, nodeRemoteFS, nodeLauncher)
 node.setNumExecutors({{ slave_executors_num }})
 node.setLabelString("{{ slave_linux_labels | join(' ') }}")
+node.getNodeProperties().add(envPro)
 {% if slave_mode_exclusive %}
 node.setMode(Node.Mode.EXCLUSIVE)
 {% else %}

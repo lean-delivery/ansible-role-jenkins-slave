@@ -29,6 +29,9 @@
     slave_linux_user_group: slave
     slave_linux_jenkins_password: password
     slave_linux_jenkins_public_key: '{{ jenkins_slave_key }}'
+    slave_environments:
+      env1: example1
+      env2: example2
   pre_tasks:
     - set_fact:
         master_host_ip: >-
