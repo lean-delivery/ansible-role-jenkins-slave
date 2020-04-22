@@ -17,7 +17,23 @@ platforms:
     region: us-east-1
     vpc_subnet_id: subnet-0f2b9cd66faea38af
     assign_public_ip: false
-    spot_price: 0.04
+    spot_price: 0.06
+    security_group_name:
+      - default
+    wait_timeout: 1800
+    ssh_user: centos
+    groups:
+      - rhel_family
+      - jenkins_master
+
+  - name: test-aws-centos8-jenkins-slave
+    image: ami-9887c6e7
+    platform: centos8
+    instance_type: m5.large
+    region: us-east-1
+    vpc_subnet_id: subnet-0f2b9cd66faea38af
+    assign_public_ip: false
+    spot_price: 0.3
     security_group_name:
       - default
     wait_timeout: 1800
@@ -35,7 +51,7 @@ platforms:
     assign_public_ip: false
     security_group_name:
       - default
-    spot_price: 0.04
+    spot_price: 0.06
     wait_timeout: 1800
     ssh_user: ubuntu
     groups:
@@ -51,7 +67,7 @@ platforms:
     assign_public_ip: false
     security_group_name:
       - default
-    spot_price: 0.04
+    spot_price: 0.06
     wait_timeout: 1800
     ssh_user: ubuntu
     groups:
@@ -65,7 +81,7 @@ platforms:
     region: us-east-1
     vpc_subnet_id: subnet-0f2b9cd66faea38af
     assign_public_ip: false
-    spot_price: 0.04
+    spot_price: 0.06
     security_group_name:
       - default
     wait_timeout: 1800
@@ -81,7 +97,7 @@ platforms:
     region: us-east-1
     vpc_subnet_id: subnet-0f2b9cd66faea38af
     assign_public_ip: false
-    spot_price: 0.04
+    spot_price: 0.06
     security_group_name:
       - default
     wait_timeout: 1800
