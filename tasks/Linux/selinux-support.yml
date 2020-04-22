@@ -1,7 +1,7 @@
 ---
 - name: Install ansible selinux support library
   package:
-    name: libselinux-python
+    name: "{{ (ansible_facts.python.version.major | int == 2) | ternary('libselinux-python','python3-libselinux') }}"
     state: present
   register: status
   retries: 10
@@ -12,8 +12,8 @@
 - name: Install ansible selinux configure libraries
   package:
     name:
-      - policycoreutils-python
-      - libsemanage-python
+      - "{{ (ansible_facts.python.version.major | int == 2) | ternary('policycoreutils-python','python3-policycoreutils') }}"
+      - "{{ (ansible_facts.python.version.major | int == 2) | ternary('libsemanage-python','python3-libsemanage') }}"
     state: present
   register: status
   retries: 10
