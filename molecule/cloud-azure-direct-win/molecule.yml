@@ -23,7 +23,7 @@ platforms:
       - rhel_family
       - jenkins_master
 
-  - name: test-aws-Windows2016-jenkins-slave
+  - name: test-azure-Windows2016-jenkins-slave
     platform: windows2016core
     vm_size: Standard_D2s_v3
     az_location: northeurope
@@ -35,7 +35,7 @@ platforms:
       - windows
       - jenkins_slaves
 
-  - name: test-aws-Windows2019-jenkins-slave
+  - name: test-azure-Windows2019-jenkins-slave
     platform: windows2019core
     vm_size: Standard_D2s_v3
     az_location: northeurope
