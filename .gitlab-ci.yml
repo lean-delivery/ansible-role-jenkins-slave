@@ -30,14 +30,14 @@ Lint:
   tags:
     - lint
 
-Docker jenkins-slave:
+.Docker jenkins-slave:
   stage: deployment test
   script:
     - molecule test -s default
   tags:
     - aws
 
-AWS jenkins-slave:
+.AWS jenkins-slave:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
