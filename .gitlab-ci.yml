@@ -46,11 +46,9 @@ AWS jenkins-slave:
   tags:
     - aws
 
-.AWS jenkins-slave-win:
-  variables:
-    AWS_REGION: us-east-1
+AZURE jenkins-slave-win:
   stage: deployment test
   script:
-    - molecule test -s cloud-aws-direct-win
+    - molecule test -s cloud-azure-direct-win
   tags:
     - aws
