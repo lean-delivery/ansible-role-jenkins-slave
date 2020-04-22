@@ -25,6 +25,7 @@
       package:
         name: openssh-clients
         state: present
+      become: true
 
     - name: Generate a pair of keys
       command: ssh-keygen -q -t rsa -f /tmp/jenkins_key -C "" -N ""
