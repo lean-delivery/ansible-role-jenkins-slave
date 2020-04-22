@@ -61,6 +61,10 @@ provisioner:
         ansible_password: "{{ lookup('env', 'WINRM_ADMIN_PWD') | default('M0leCule123!', true) }}"
         ansible_winrm_transport: credssp
         ansible_winrm_server_cert_validation: ignore
+        java_distribution: oracle_java
+        transport: local
+        java_tarball_install: false
+        transport_local: /tmp/jdk-8u202-windows-x64.exe
   playbooks:
     create: ../resources/provisioning/AZURE/create.yml
     prepare: prepare.yml
