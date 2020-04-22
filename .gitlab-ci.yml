@@ -51,4 +51,4 @@ AZURE jenkins-slave-win:
   script:
     - molecule test -s cloud-azure-direct-win
   tags:
-    - aws
+    - azure
