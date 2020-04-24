@@ -1,7 +1,4 @@
 ---
-- name: Include common prepare
-  import_playbook: ../resources/provisioning/AWS/prepare.yml
-
 - name: Install OpenJDK8
   hosts: all
   roles:

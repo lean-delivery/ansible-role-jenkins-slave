@@ -1,6 +1,6 @@
 ---
+os: linux
 dist: bionic
-sudo: required
 
 language: python
 python:
@@ -13,7 +13,7 @@ before_install:
   - git clone https://github.com/lean-delivery/ansible-lint-rules.git ~/ansible-lint-rules
 
 install:
-  - pip3 install --upgrade ansible==2.8.* docker
+  - pip3 install --upgrade ansible==2.9.* docker
   - pip3 install molecule==2.22
   - pip3 install git+https://github.com/ansible/ansible-lint.git
   - ansible --version

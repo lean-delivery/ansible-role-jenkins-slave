@@ -2,7 +2,7 @@
 # Run all tests
 default:
   image:
-    name: leandelivery/docker-ansible-ci:ansible-2.8
+    name: leandelivery/docker-ansible-ci:ansible-2.9
 
 stages:
   - lint
@@ -28,7 +28,7 @@ Lint:
   after_script:
     - rm -rf ~/ansible-lint-rules
   tags:
-    - aws
+    - lint
 
 Docker jenkins-slave:
   stage: deployment test
@@ -46,20 +46,9 @@ AWS jenkins-slave:
   tags:
     - aws
 
-AWS jenkins-slave-win:
-  variables:
-    AWS_REGION: us-east-1
+AZURE jenkins-slave-win:
   stage: deployment test
   script:
-    - molecule test -s cloud-aws-direct-win
+    - molecule test -s cloud-azure-direct-win
   tags:
-    - aws
-
-.EPC jenkins-slave:
-  variables:
-    EPC_REGION: EPAM-BY2
-  stage: deployment test
-  script:
-    - molecule test -s cloud-epc-delegated
-  tags:
-    - delegated
+    - azure

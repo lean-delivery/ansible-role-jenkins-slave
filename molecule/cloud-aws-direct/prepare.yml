@@ -1,7 +1,4 @@
 ---
-- name: Include common prepare
-  import_playbook: ../resources/provisioning/AWS/prepare.yml
-
 - name: Install OpenJDK8
   hosts: all
   roles:
@@ -28,6 +25,7 @@
       package:
         name: openssh-clients
         state: present
+      become: true
 
     - name: Generate a pair of keys
       command: ssh-keygen -q -t rsa -f /tmp/jenkins_key -C "" -N ""

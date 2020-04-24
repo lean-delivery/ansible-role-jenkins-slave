@@ -4,55 +4,45 @@ dependency:
   options:
     role-file: requirements.yml
 driver:
-  name: ec2
+  name: azure
 lint:
   name: yamllint
   options:
     config-file: .yamllint
 platforms:
 
-  - name: test-aws-centos7-jenkins-masterw
-    image: ami-9887c6e7
+  - name: test-azure-centos7-jenkins-master
     platform: centos7
-    instance_type: m5.large
-    region: us-east-1
-    vpc_subnet_id: subnet-0f2b9cd66faea38af
-    assign_public_ip: false
-    spot_price: 0.04
-    security_group_name:
-      - default
-    wait_timeout: 1800
-    ssh_user: centos
+    vm_size: Standard_D2s_v3
+    az_location: northeurope
+    az_resource_group_name: epm-ldi
+    az_virtual_network_name: epm-ldi-northeurope-vnet
+    az_subnet_name: epm-ldi-northeurope-subnet
+    az_network_security_group: epm-ldi-northeurope-sg
     groups:
       - rhel_family
       - jenkins_master
 
-  - name: test-aws-Windows2016-jenkins-slave
-    image_id: ami-00a20f508263efd30
+  - name: test-azure-Windows2016-jenkins-slave
     platform: windows2016core
-    region: us-east-1
-    instance_type: m5.large
-    vpc_subnet_id: subnet-0f2b9cd66faea38af
-    assign_public_ip: false
-    spot_price: 0.14
-    security_group_name:
-      - default
-    wait_timeout: 1800
+    vm_size: Standard_D2s_v3
+    az_location: northeurope
+    az_resource_group_name: epm-ldi
+    az_virtual_network_name: epm-ldi-northeurope-vnet
+    az_subnet_name: epm-ldi-northeurope-subnet
+    az_network_security_group: epm-ldi-northeurope-sg
     groups:
       - windows
       - jenkins_slaves
 
-  - name: test-aws-Windows2019-jenkins-slave
-    image_id: ami-0477b9335a5a75438
+  - name: test-azure-Windows2019-jenkins-slave
     platform: windows2019core
-    region: us-east-1
-    instance_type: m5.large
-    vpc_subnet_id: subnet-0f2b9cd66faea38af
-    assign_public_ip: false
-    spot_price: 0.14
-    security_group_name:
-      - default
-    wait_timeout: 1800
+    vm_size: Standard_D2s_v3
+    az_location: northeurope
+    az_resource_group_name: epm-ldi
+    az_virtual_network_name: epm-ldi-northeurope-vnet
+    az_subnet_name: epm-ldi-northeurope-subnet
+    az_network_security_group: epm-ldi-northeurope-sg
     groups:
       - windows
       - jenkins_slaves
@@ -73,16 +63,17 @@ provisioner:
         ansible_winrm_server_cert_validation: ignore
         java_distribution: oracle_java
         transport: local
+        java_tarball_install: false
         transport_local: /tmp/jdk-8u202-windows-x64.exe
   playbooks:
-    create: ../resources/provisioning/AWS/create.yml
+    create: ../resources/provisioning/AZURE/create.yml
     prepare: prepare.yml
-    destroy: ../resources/provisioning/AWS/destroy.yml
+    destroy: ../resources/provisioning/AZURE/destroy.yml
     verify: ../resources/tests/verify.yml
   lint:
     name: ansible-lint
 scenario:
-  name: cloud-aws-direct-win
+  name: cloud-azure-direct-win
 verifier:
   name: ansible
   lint:
