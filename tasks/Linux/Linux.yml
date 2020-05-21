@@ -52,6 +52,7 @@
     url: '{{ master_url }}'
     script: >-
       {{ lookup('template', 'add_linux_slave.groovy.j2') }}
+  delegate_to: "{{ inventory_hostname if slave_installation_delegated_to == "" else slave_installation_delegated_to }}"
 
 - name: Add selinux support
   include_tasks: selinux-support.yml

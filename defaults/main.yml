@@ -11,6 +11,7 @@ slave_agent_name: agent
 slave_executors_num: 1
 slave_environments: {}
 slave_mode_exclusive: false
+slave_installation_delegated_to: ""
 
 # jenkins linux slave
 slave_linux_host: "{{ ansible_host }}"
