@@ -16,11 +16,12 @@
   user:
     name: '{{ slave_linux_jenkins_username }}'
     group: '{{ slave_linux_jenkins_username }}'
+    home: '{{ slave_linux_home }}'
     password: >-
       {{ slave_linux_jenkins_password
         | password_hash('sha512', 65534 | random(seed=inventory_hostname)
         | string) }}
-    update_password: always
+    update_password: on_create
     state: present
     append: true
     createhome: true
@@ -33,15 +34,6 @@
     key: '{{ slave_linux_jenkins_public_key }}'
   become: true
   when: slave_linux_jenkins_public_key | trim
-
-- name: Create slave home directory
-  file:
-    path: '{{ slave_linux_home }}'
-    state: directory
-    owner: '{{ slave_linux_jenkins_username }}'
-    group: '{{ slave_linux_user_group }}'
-    mode: 0775
-  become: true
 
 - name: Install slave jenkins agent
   jenkins_script:
